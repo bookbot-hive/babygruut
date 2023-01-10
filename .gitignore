@@ -5,6 +5,7 @@ __pycache__/
 /.venv*/
 /.tox/
 /build/
+*/build/
 /download/
 dist/
 
