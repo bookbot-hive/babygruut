@@ -86,12 +86,10 @@ data_files = [
 ]
 
 setuptools.setup(
-    name="gruut",
+    name="babygruut",
     description="A tokenizer, text cleaner, and phonemizer for many human languages.",
     version=version,
-    author="Michael Hansen",
-    author_email="mike@rhasspy.org",
-    url="https://github.com/rhasspy/gruut",
+    url="https://github.com/bookbot-hive/babygruut",
     packages=setuptools.find_packages(),
     package_data={"gruut": data_files + ["VERSION", "py.typed"]},
     install_requires=requirements,

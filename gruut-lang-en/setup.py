@@ -32,12 +32,10 @@ for maybe_extra_str in maybe_extra_files:
 # -----------------------------------------------------------------------------
 
 setuptools.setup(
-    name=module_name,
+    name="babygruut_lang_en",
     description="English language files for gruut tokenizer/phonemizer",
     version=version,
-    author="Michael Hansen",
-    author_email="mike@rhasspy.org",
-    url="https://github.com/rhasspy/gruut",
+    url="https://github.com/bookbot-hive/babygruut",
     packages=setuptools.find_packages(),
     package_data={
         module_name: [
