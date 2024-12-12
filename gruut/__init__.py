@@ -12,6 +12,7 @@ from gruut.const import KNOWN_LANGS, TextProcessorSettings
 from gruut.resources import _DIR, _PACKAGE
 from gruut.text_processor import Sentence, TextProcessor
 from gruut.utils import resolve_lang
+from gruut.lang import DelayedTursoPhonemizer
 
 # -----------------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ __all__ = [
     "get_supported_languages",
     "TextProcessor",
     "TextProcessorSettings",
+    "DelayedTursoPhonemizer",
 ]
 
 # -----------------------------------------------------------------------------
@@ -45,6 +47,7 @@ def sentences(
     phonemes: bool = True,
     break_phonemes: bool = True,
     pos: bool = True,
+    turso_config=None,
     **process_args,
 ) -> typing.Iterable[Sentence]:
     """
@@ -65,15 +68,18 @@ def sentences(
 
     """
     model_prefix = "" if (not espeak) else "espeak"
-
     with _PROCESSORS_LOCK:
         if not hasattr(_LOCAL, "processors"):
             _LOCAL.processors = {}
 
         text_processor = _LOCAL.processors.get(model_prefix)
         if text_processor is None:
-            text_processor = TextProcessor(default_lang=lang, model_prefix=model_prefix)
+            _LOGGER.debug(f"Creating new processor for {lang} with config: {turso_config}")
+            text_processor = TextProcessor(default_lang=lang, model_prefix=model_prefix, turso_config=turso_config)
             _LOCAL.processors[model_prefix] = text_processor
+        else:
+            _LOGGER.debug(f"Using existing processor for {lang}")
+            text_processor.turso_config = turso_config
 
     assert text_processor is not None
     graph, root = text_processor(text, lang=lang, ssml=ssml, **process_args)
@@ -102,3 +108,13 @@ def is_language_supported(lang: str) -> bool:
 def get_supported_languages() -> typing.Set[str]:
     """Set of supported gruut languages"""
     return set(KNOWN_LANGS)
+
+
+# Add cleanup method
+def cleanup():
+    """Cleanup thread-local resources"""
+    if hasattr(_LOCAL, "processors"):
+        for processor in _LOCAL.processors.values():
+            if hasattr(processor, "cleanup"):
+                processor.cleanup()
+        delattr(_LOCAL, "processors")

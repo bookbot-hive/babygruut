@@ -7,6 +7,7 @@ import typing
 from pathlib import Path
 
 import networkx as nx
+import asyncio
 
 from gruut.const import PHONEMES_TYPE, GraphType, SentenceNode, Time
 from gruut.g2p import GraphemesToPhonemes
@@ -14,7 +15,8 @@ from gruut.phonemize import SqlitePhonemizer
 from gruut.pos import PartOfSpeechTagger
 from gruut.text_processor import InterpretAsFormat, TextProcessorSettings
 from gruut.utils import find_lang_dir, remove_non_word_chars, resolve_lang
-
+from gruut.cloudflare_d1_db import CloudflareD1Phonemizer
+from gruut.turso_db import TursoDB
 _LOGGER = logging.getLogger("gruut")
 
 # -----------------------------------------------------------------------------
@@ -28,6 +30,7 @@ def get_settings(
     load_pos_tagger: bool = True,
     load_phoneme_lexicon: bool = True,
     load_g2p_guesser: bool = True,
+    turso_config: typing.Optional[typing.Dict[str, str]] = None,
     **settings_args,
 ) -> TextProcessorSettings:
     """Get settings for a specific language"""
@@ -71,26 +74,39 @@ def get_settings(
 
         # Phonemizer
         if load_phoneme_lexicon and ("lookup_phonemes" not in settings_args):
-            lexicon_db_path = lang_dir / lang_model_prefix / "lexicon.db"
-            if lexicon_db_path.is_file():
-                # Transformations to apply to words when they can't be found in the lexicon
-                phonemizer_args = {
-                    "word_transform_funcs": [
+            _LOGGER.debug(f"Turso config: {turso_config}")
+            if turso_config is not None:
+                # Use Turso phonemizer if config is provided
+                settings_args["lookup_phonemes"] = DelayedTursoPhonemizer(
+                    url=turso_config["url"],
+                    auth_token=turso_config["auth_token"],
+                    table_name=turso_config["table"],
+                    word_transform_funcs=[
                         str.lower,
                         remove_non_word_chars,
                         lambda s: remove_non_word_chars(s.lower()),
                     ],
-                }
-
-                settings_args["lookup_phonemes"] = DelayedSqlitePhonemizer(
-                    lexicon_db_path, **phonemizer_args
                 )
             else:
-                _LOGGER.debug(
-                    "(%s) no phoneme lexicon database found at %s",
-                    lang,
-                    lexicon_db_path,
-                )
+                # Use default SQLite phonemizer
+                lexicon_db_path = lang_dir / lang_model_prefix / "lexicon.db"
+                if lexicon_db_path.is_file():
+                    phonemizer_args = {
+                        "word_transform_funcs": [
+                            str.lower,
+                            remove_non_word_chars,
+                            lambda s: remove_non_word_chars(s.lower()),
+                        ],
+                    }
+                    settings_args["lookup_phonemes"] = DelayedSqlitePhonemizer(
+                        lexicon_db_path, **phonemizer_args
+                    )
+                else:
+                    _LOGGER.debug(
+                        "(%s) no phoneme lexicon database found at %s",
+                        lang,
+                        lexicon_db_path,
+                    )
 
         # Grapheme to phoneme model
         if load_g2p_guesser and ("guess_phonemes" not in settings_args):
@@ -892,9 +908,56 @@ class DelayedSqlitePhonemizer:
         self, word: str, role: typing.Optional[str] = None, do_transforms: bool = True
     ) -> typing.Optional[PHONEMES_TYPE]:
         if self.phonemizer is None:
-            _LOGGER.debug("Connecting to lexicon database at %s", self.db_path)
             db_conn = sqlite3.connect(str(self.db_path))
             self.phonemizer = SqlitePhonemizer(db_conn=db_conn, **self.phonemizer_args)
+        assert self.phonemizer is not None
+        return self.phonemizer(word, role=role, do_transforms=do_transforms)
+
+class DelayedTursoPhonemizer:
+    """Phonemizer that loads from Turso on first use"""
+
+    def __init__(
+        self, 
+        url: str,
+        auth_token: str,
+        table_name: str,
+        **phonemizer_args
+    ):
+        self.url = url
+        self.auth_token = auth_token
+        self.table_name = table_name
+        self.phonemizer = None
+        self.turso_db = None
+        self.phonemizer_args = phonemizer_args
+        self._cleanup_loop = None
+
+    def __call__(
+        self, word: str, role: typing.Optional[str] = None, do_transforms: bool = True
+    ) -> typing.Optional[PHONEMES_TYPE]:
+        if self.phonemizer is None:            # Load initial data using asyncio
+            async def load_data():
+                from gruut.turso_db import TursoDB
+                self.turso_db = await TursoDB.create(
+                    url=self.url,
+                    auth_token=self.auth_token,
+                    table_name=self.table_name
+                )
+                # Use TursoDB's memory connection directly
+                self.phonemizer = SqlitePhonemizer(
+                    db_conn=self.turso_db.memory_conn,
+                    **self.phonemizer_args
+                )
+                await self.turso_db.close_turso_client()
+            
+            # Run async load in a new event loop
+            self._cleanup_loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self._cleanup_loop)
+            try:
+                self._cleanup_loop.run_until_complete(load_data())
+            except:
+                self._cleanup_loop.close()
+                self._cleanup_loop = None
+                raise
 
         assert self.phonemizer is not None
         return self.phonemizer(word, role=role, do_transforms=do_transforms)

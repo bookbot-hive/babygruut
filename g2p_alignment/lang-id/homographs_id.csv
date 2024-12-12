@@ -1,0 +1,205 @@
+word,phonemes,roles,g2p_alignment
+angel,a ŋ e l,A,a}a n|g}ŋ e}e l}l
+angel,a ŋ ə l,A,a}a n|g}ŋ e}ə l}l
+apel,a p ə l,N,a}a p}p e}ə l}l
+apel,a p e l,V,a}a p}p e}e l}l
+begar,b e ɡ a r,V,b}b e}e g}ɡ a}a r}r
+begar,b ə ɡ a r,A,b}b e}ə g}ɡ a}a r}r
+begu,b e ɡ u,N,b}b e}e g}ɡ u}u
+begu,b ə ɡ u,N,b}b e}ə g}ɡ u}u
+bekel,b e k ə l,N,b}b e}e k}k e}ə l}l
+bekel,b e k ə l,N,b}b e}e k}k e}ə l}l
+belek,b ə l e ʔ,V,b}b e}ə l}l e}e k}ʔ
+belek,b e l e ʔ,N,b}b e}e l}l e}e k}ʔ
+belok,b e l o ʔ,V,b}b e}e l}l o}o k}ʔ
+belok,b ə l o ʔ,A,b}b e}ə l}l o}o k}ʔ
+bena,b e n a,A,b}b e}e n}n a}a
+bena,b ə n a,N,b}b e}ə n}n a}a
+berak,b e r a k,V,b}b e}e r}r a}a k}k
+berak,b ə r a k,A,b}b e}ə r}r a}a k}k
+berang,b e r a ŋ,A,b}b e}e r}r a}a n|g}ŋ
+berang,b ə r a ŋ,N,b}b e}ə r}r a}a n|g}ŋ
+berok,b e r o ʔ,N,b}b e}e r}r o}o k}ʔ
+berok,b ə r o ʔ,N,b}b e}ə r}r o}o k}ʔ
+berpendar,b ə r p e n d a r,V,b}b e}ə r}r p}p e}e n}n d}d a}a r}r
+berpendar,b ə r p ə n d a r,V,b}b e}ə r}r p}p e}ə n}n d}d a}a r}r
+berseri,b ə r s ə r i,V,b}b e}ə r}r s}s e}ə r}r i}i
+berseri,b ə r s e r i,V,b}b e}ə r}r s}s e}e r}r i}i
+boreh,b o r e h,N,b}b o}o r}r e}e h}h
+boreh,b o r ə h,N,b}b o}o r}r e}ə h}h
+cegak,tʃ e ɡ a ʔ,A,c}tʃ e}e g}ɡ a}a k}ʔ
+cegak,tʃ ə ɡ a ʔ,A,c}tʃ e}ə g}ɡ a}a k}ʔ
+cela,tʃ ə l a,N,c}tʃ e}ə l}l a}a
+cela,tʃ e l a,N,c}tʃ e}e l}l a}a
+celak,tʃ e l a ʔ,N,c}tʃ e}e l}l a}a k}ʔ
+celak,tʃ ə l a ʔ,N,c}tʃ e}ə l}l a}a k}ʔ
+cetok,tʃ e t o ʔ,N,c}tʃ e}e t}t o}o k}ʔ
+cetok,tʃ ə t o ʔ,N,c}tʃ e}ə t}t o}o k}ʔ
+debut,d e b u t,N,d}d e}e b}b u}u t}t
+debut,d ə b u t,N,d}d e}ə b}b u}u t}t
+dekan,d e k a n,N,d}d e}e k}k a}a n}n
+dekan,d ə k a n,N,d}d e}ə k}k a}a n}n
+dendang,d e n d a ŋ,N,d}d e}e n}n d}d a}a n|g}ŋ
+dendang,d ə n d a ŋ,N,d}d e}ə n}n d}d a}a n|g}ŋ
+depak,d e p a ʔ,V,d}d e}e p}p a}a k}ʔ
+depak,d ə p a ʔ,M,d}d e}ə p}p a}a k}ʔ
+dera,d e r a,N,d}d e}e r}r a}a
+dera,d ə r a,N,d}d e}ə r}r a}a
+embel,e m b e l,N,e}e m}m b}b e}e l}l
+embel,ə m b ə l,N,e}ə m}m b}b e}ə l}l
+erang,ə r a ŋ,N,e}ə r}r a}a n|g}ŋ
+erang,e r a ŋ,A,e}e r}r a}a n|g}ŋ
+ganteng,ɡ a n t ə ŋ,A,g}ɡ a}a n}n t}t e}ə n|g}ŋ
+ganteng,ɡ a n t e ŋ,V,g}ɡ a}a n}n t}t e}e n|g}ŋ
+gedek,ɡ ə d ə ʔ,N,g}ɡ e}ə d}d e}ə k}ʔ
+gedek,ɡ ə d e ʔ,V,g}ɡ e}ə d}d e}e k}ʔ
+gelang,ɡ ə l a ŋ,N,g}ɡ e}ə l}l a}a n|g}ŋ
+gelang,ɡ e l a ŋ,N,g}ɡ e}e l}l a}a n|g}ŋ
+genggang,ɡ ə ŋ ɡ a ŋ,N,g}ɡ e}ə n|g}ŋ g}ɡ a}a n|g}ŋ
+genggang,ɡ e ŋ ɡ a ŋ,N,g}ɡ e}e n|g}ŋ g}ɡ a}a n|g}ŋ
+helat,h ə l a t,A,h}h e}ə l}l a}a t}t
+helat,h e l a t,N,h}h e}e l}l a}a t}t
+jejer,dʒ e dʒ e r,V,j}dʒ e}e j}dʒ e}e r}r
+jejer,dʒ ə dʒ ə r,N,j}dʒ e}ə j}dʒ e}ə r}r
+jeli,dʒ e l i,N,j}dʒ e}e l}l i}i
+jeli,dʒ ə l i,A,j}dʒ e}ə l}l i}i
+kecap,k e tʃ a p,N,k}k e}e c}tʃ a}a p}p
+kecap,k ə tʃ a p,V,k}k e}ə c}tʃ a}a p}p
+keder,k ə d e r,N,k}k e}ə d}d e}e r}r
+keder,k e d ə r,A,k}k e}e d}d e}ə r}r
+kedi,k e d i,N,k}k e}e d}d i}i
+kedi,k ə d i,N,k}k e}ə d}d i}i
+kekel,k e k e l,A,k}k e}e k}k e}e l}l
+kekel,k ə k ə l,N,k}k e}ə k}k e}ə l}l
+kelah,k e l a h,V,k}k e}e l}l a}a h}h
+kelah,k ə l a h,N,k}k e}ə l}l a}a h}h
+kelentang,k ə l ə n t a ŋ,N,k}k e}ə l}l e}ə n}n t}t a}a n|g}ŋ
+kelentang,k ə l e n t a ŋ,N,k}k e}ə l}l e}e n}n t}t a}a n|g}ŋ
+kelenteng,k ə l ə n t e ŋ,N,k}k e}ə l}l e}ə n}n t}t e}e n|g}ŋ
+kelenteng,k ə l e n t e ŋ,N,k}k e}ə l}l e}e n}n t}t e}e n|g}ŋ
+kelepak,k ə l ə p a ʔ,N,k}k e}ə l}l e}ə p}p a}a k}ʔ
+kelepak,k ə l e p a ʔ,A,k}k e}ə l}l e}e p}p a}a k}ʔ
+kelesa,k ə l e s a,A,k}k e}ə l}l e}e s}s a}a
+kelesa,k ə l ə s a,N,k}k e}ə l}l e}ə s}s a}a
+kena,k ə n a,V,k}k e}ə n}n a}a
+kena,k e n a,N,k}k e}e n}n a}a
+kepang,k e p a ŋ,N,k}k e}e p}p a}a n|g}ŋ
+kepang,k ə p a ŋ,N,k}k e}ə p}p a}a n|g}ŋ
+kepar,k e p a r,N,k}k e}e p}p a}a r}r
+kepar,k ə p a r,N,k}k e}ə p}p a}a r}r
+kere,k e r e,A,k}k e}e r}r e}e
+kere,k ə r e,N,k}k e}ə r}r e}e
+keset,k ə s ə t,A,k}k e}ə s}s e}ə t}t
+keset,k e s e t,N,k}k e}e s}s e}e t}t
+ketek,k e t e ʔ,N,k}k e}e t}t e}e k}ʔ
+ketek,k ə t e ʔ,N,k}k e}ə t}t e}e k}ʔ
+ketel,k e t e l,N,k}k e}e t}t e}e l}l
+ketel,k ə t ə l,A,k}k e}ə t}t e}ə l}l
+lebam,l e b a m,N,l}l e}e b}b a}a m}m
+lebam,l ə b a m,A,l}l e}ə b}b a}a m}m
+leding,l e d i ŋ,N,l}l e}e d}d i}i n|g}ŋ
+leding,l ə d i ŋ,V,l}l e}ə d}d i}i n|g}ŋ
+legar,l e ɡ a r,V,l}l e}e g}ɡ a}a r}r
+legar,l ə ɡ a r,N,l}l e}ə g}ɡ a}a r}r
+lembang,l e m b a ŋ,N,l}l e}e m}m b}b a}a n|g}ŋ
+lembang,l ə m b a ŋ,A,l}l e}ə m}m b}b a}a n|g}ŋ
+lempeng,l e m p e ŋ,A,l}l e}e m}m p}p e}e n|g}ŋ
+lempeng,l ə m p ə ŋ,A,l}l e}ə m}m p}p e}ə n|g}ŋ
+lenggang,l e ŋ ɡ a ŋ,N,l}l e}e n|g}ŋ g}ɡ a}a n|g}ŋ
+lenggang,l ə ŋ ɡ a ŋ,A,l}l e}ə n|g}ŋ g}ɡ a}a n|g}ŋ
+letak,l e t a ʔ,A,l}l e}e t}t a}a k}ʔ
+letak,l ə t a ʔ,N,l}l e}ə t}t a}a k}ʔ
+leter,l e t e r,A,l}l e}e t}t e}e r}r
+leter,l e t ə r,N,l}l e}e t}t e}ə r}r
+mejan,m e dʒ a n,N,m}m e}e j}dʒ a}a n}n
+mejan,m ə dʒ a n,N,m}m e}ə j}dʒ a}a n}n
+memepet,m ə m e p e t,V,m}m e}ə m}m e}e p}p e}e t}t
+memepet,m ə m ə p e t,N,m}m e}ə m}m e}ə p}p e}e t}t
+memerah,m ə m e r a h,V,m}m e}ə m}m e}e r}r a}a h}h
+memerah,m ə m ə r a h,V,m}m e}ə m}m e}ə r}r a}a h}h
+mendera,m ə n d e r a,V,m}m e}ə n}n d}d e}e r}r a}a
+mendera,m ə n d e r a,A,m}m e}ə n}n d}d e}e r}r a}a
+mental,m e n t a l,V,m}m e}e n}n t}t a}a l}l
+mental,m ə n t a l,N,m}m e}ə n}n t}t a}a l}l
+pelak,p e l a k,N,p}p e}e l}l a}a k}k
+pelak,p ə l a k,A,p}p e}ə l}l a}a k}k
+pelang,p e l a ŋ,N,p}p e}e l}l a}a n|g}ŋ
+pelang,p ə l a ŋ,N,p}p e}ə l}l a}a n|g}ŋ
+pelat,p ə l a t,N,p}p e}ə l}l a}a t}t
+pelat,p e l a t,A,p}p e}e l}l a}a t}t
+pelekat,p ə l ə k a t,N,p}p e}ə l}l e}ə k}k a}a t}t
+pelekat,p ə l e k a t,N,p}p e}ə l}l e}e k}k a}a t}t
+penggemblengan,p ə ŋ ɡ ə m b l e ŋ a n,N,p}p e}ə n|g}ŋ g}ɡ e}ə m}m b}b l}l e}e n|g}ŋ a}a n}n
+penggemblengan,p ə ŋ ɡ ə m b l ə ŋ a n,N,p}p e}ə n|g}ŋ g}ɡ e}ə m}m b}b l}l e}ə n|g}ŋ a}a n}n
+pening,p ə n i ŋ,A,p}p e}ə n}n i}i n|g}ŋ
+pening,p e n i ŋ,N,p}p e}e n}n i}i n|g}ŋ
+pentil,p e n t i l,N,p}p e}e n}n t}t i}i l}l
+pentil,p ə n t i l,N,p}p e}ə n}n t}t i}i l}l
+pepet,p e p e t,V,p}p e}e p}p e}e t}t
+pepet,p ə p ə t,N,p}p e}ə p}p e}ə t}t
+per,p e r,N,p}p e}e r}r
+per,p ə r,P,p}p e}ə r}r
+rebak,r e b a ʔ,A,r}r e}e b}b a}a k}ʔ
+rebak,r ə b a ʔ,V,r}r e}ə b}b a}a k}ʔ
+relai,r e l a i,V,r}r e}e l}l a}a i}i
+relai,r ə l a i,N,r}r e}ə l}l a}a i}i
+remah,r e m a h,N,r}r e}e m}m a}a h}h
+remah,r ə m a h,N,r}r e}ə m}m a}a h}h
+rembes,r e m b e s,A,r}r e}e m}m b}b e}e s}s
+rembes,r e m b ə s,N,r}r e}e m}m b}b e}ə s}s
+samseng,s a m s e ŋ,N,s}s a}a m}m s}s e}e n|g}ŋ
+samseng,s a m s ə ŋ,V,s}s a}a m}m s}s e}ə n|g}ŋ
+seba,s e b a,V,s}s e}e b}b a}a
+seba,s ə b a,V,s}s e}ə b}b a}a
+sebat,s e b a t,A,s}s e}e b}b a}a t}t
+sebat,s ə b a t,V,s}s e}ə b}b a}a t}t
+sedan,s e d a n,N,s}s e}e d}d a}a n}n
+sedan,s ə d a n,N,s}s e}ə d}d a}a n}n
+sela,s ə l a,N,s}s e}ə l}l a}a
+sela,s e l a,N,s}s e}e l}l a}a
+selak,s e l a ʔ,V,s}s e}e l}l a}a k}ʔ
+selak,s ə l a ʔ,V,s}s e}ə l}l a}a k}ʔ
+selempang,s ə l e m p a ŋ,N,s}s e}ə l}l e}e m}m p}p a}a n|g}ŋ
+selempang,s ə l ə m p a ŋ,A,s}s e}ə l}l e}ə m}m p}p a}a n|g}ŋ
+semen,s e m ə n,N,s}s e}e m}m e}ə n}n
+semen,s e m e n,N,s}s e}e m}m e}e n}n
+semi,s ə m i,N,s}s e}ə m}m i}i
+semi,s e m i,A,s}s e}e m}m i}i
+senggang,s e ŋ ɡ a ŋ,A,s}s e}e n|g}ŋ g}ɡ a}a n|g}ŋ
+senggang,s ə ŋ ɡ a ŋ,A,s}s e}ə n|g}ŋ g}ɡ a}a n|g}ŋ
+sengkang,s e ŋ k a ŋ,N,s}s e}e n|g}ŋ k}k a}a n|g}ŋ
+sengkang,s ə ŋ k a ŋ,N,s}s e}ə n|g}ŋ k}k a}a n|g}ŋ
+sengkelat,s ə ŋ k e l a t,A,s}s e}ə n|g}ŋ k}k e}e l}l a}a t}t
+sengkelat,s ə ŋ k ə l a t,V,s}s e}ə n|g}ŋ k}k e}ə l}l a}a t}t
+sepak,s e p a k,N,s}s e}e p}p a}a k}k
+sepak,s ə p a k,N,s}s e}ə p}p a}a k}k
+serak,s ə r a ʔ,A,s}s e}ə r}r a}a k}ʔ
+serak,s e r a ʔ,V,s}s e}e r}r a}a k}ʔ
+serang,s ə r a ŋ,V,s}s e}ə r}r a}a n|g}ŋ
+serang,s e r a ŋ,N,s}s e}e r}r a}a n|g}ŋ
+seret,s e r e t,V,s}s e}e r}r e}e t}t
+seret,s ə r ə t,A,s}s e}ə r}r e}ə t}t
+seri,s e r i,N,s}s e}e r}r i}i
+seri,s ə r i,A,s}s e}ə r}r i}i
+sertu,s e r t u,N,s}s e}e r}r t}t u}u
+sertu,s ə r t u,V,s}s e}ə r}r t}t u}u
+tekek,t ə k e ʔ,N,t}t e}ə k}k e}e k}ʔ
+tekek,t e k e ʔ,V,t}t e}e k}k e}e k}ʔ
+teken,t ə k ə n,V,t}t e}ə k}k e}ə n}n
+teken,t e k ə n,V,t}t e}e k}k e}ə n}n
+tela,t e l a,N,t}t e}e l}l a}a
+tela,t ə l a,N,t}t e}ə l}l a}a
+telan,t e l a n,N,t}t e}e l}l a}a n}n
+telan,t ə l a n,V,t}t e}ə l}l a}a n}n
+teleng,t e l e ŋ,A,t}t e}e l}l e}e n|g}ŋ
+teleng,t ə l ə ŋ,N,t}t e}ə l}l e}ə n|g}ŋ
+telor,t ə l o r,N,t}t e}ə l}l o}o r}r
+telor,t e l o r,A,t}t e}e l}l o}o r}r
+tepak,t e p a ʔ,N,t}t e}e p}p a}a k}ʔ
+tepak,t ə p a ʔ,N,t}t e}ə p}p a}a k}ʔ
+tepok,t ə p o ʔ,V,t}t e}ə p}p o}o k}ʔ
+tepok,t e p o ʔ,A,t}t e}e p}p o}o k}ʔ
+terapi,t e r a p i,N,t}t e}e r}r a}a p}p i}i
+terapi,t ə r a p i,A,t}t e}ə r}r a}a p}p i}i
+teras,t e r a s,N,t}t e}e r}r a}a s}s
+teras,t ə r a s,N,t}t e}ə r}r a}a s}s
