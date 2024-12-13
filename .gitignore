@@ -9,6 +9,8 @@ __pycache__/
 /download/
 dist/
 
+/g2p_alignment/
+
 coverage.xml
 .coverage
 

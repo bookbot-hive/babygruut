@@ -1,12 +1,12 @@
 import typing
-import asyncio  #
+import asyncio 
 import logging
 import sqlite3
 import libsql_client
 import asyncio 
-import time  # Add this import at the top
+import time
+import os
 
-from pathlib import Path
 from gruut.const import PHONEMES_TYPE
 from gruut.phonemize import SqlitePhonemizer
 
@@ -16,6 +16,9 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 _LOGGER = logging.getLogger("gruut.turso_db")
+
+TURSO_URL = os.getenv("TURSO_URL")
+TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
 
 class TursoDB:
     """Phonemizer that uses Turso with an in-memory SQLite cache"""
@@ -171,9 +174,10 @@ class TursoDB:
 
 if __name__ == "__main__":
     async def main():
+        
         turso_config = {
-            "url": "libsql://lexicons-ductran.turso.io",
-            "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzM0MTUyMzcsImlkIjoiNTA1MDEzYTQtZmRmNi00MjFhLTk1NWYtZjg4OTg4MmFiZmE4In0.T9edpUZAQOgQrEeA3hiaIeddeH9HfcbV2rbagk8XyexC_nuD9eXEEHHz8PwD4BPwmib0Nns4yYxU4pKIUeioCw",
+            "url": TURSO_URL,
+            "auth_token": TURSO_AUTH_TOKEN,
             "table": "sw_phonemes"
         }
 

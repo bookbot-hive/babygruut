@@ -1,1 +1,0 @@
-python update_wu_ipa_with_gruut.py en lang-en/en_lexicon.db

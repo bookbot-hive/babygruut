@@ -2,6 +2,7 @@
 """Tests for phonemization"""
 import unittest
 import logging
+from gruut import sentences
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -9,23 +10,6 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 logging.getLogger("gruut").setLevel(logging.INFO) 
-
-from gruut import sentences
-
-# Translation from https://omniglot.com for:
-# My hovercraft is full of eels.
-
-en_turso_config = {
-    "url": "libsql://lexicons-ductran.turso.io",
-    "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzM0MTUyMzcsImlkIjoiNTA1MDEzYTQtZmRmNi00MjFhLTk1NWYtZjg4OTg4MmFiZmE4In0.T9edpUZAQOgQrEeA3hiaIeddeH9HfcbV2rbagk8XyexC_nuD9eXEEHHz8PwD4BPwmib0Nns4yYxU4pKIUeioCw",
-    "table": "en_phonemes"
-}
-
-sw_turso_config = {
-    "url": "libsql://lexicons-ductran.turso.io",
-    "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzM0MTUyMzcsImlkIjoiNTA1MDEzYTQtZmRmNi00MjFhLTk1NWYtZjg4OTg4MmFiZmE4In0.T9edpUZAQOgQrEeA3hiaIeddeH9HfcbV2rbagk8XyexC_nuD9eXEEHHz8PwD4BPwmib0Nns4yYxU4pKIUeioCw",
-    "table": "sw_phonemes"
-}
 
 
 class PhonemizerTestCase(unittest.TestCase):
@@ -65,12 +49,11 @@ class PhonemizerTestCase(unittest.TestCase):
         )
       
 
-def get_phonemes(text, lang, turso_config=None):
+def get_phonemes(text, lang):
     """Return (text, phonemes) for each word"""
     sentence = next(sentences(
         text, 
         lang=lang,
-        turso_config=turso_config  # Pass the phonemizer
     ))
     return [(w.text, w.phonemes) for w in sentence if w.phonemes]
 

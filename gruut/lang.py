@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Language-specific settings"""
 import logging
 import re
@@ -15,7 +14,6 @@ from gruut.phonemize import SqlitePhonemizer
 from gruut.pos import PartOfSpeechTagger
 from gruut.text_processor import InterpretAsFormat, TextProcessorSettings
 from gruut.utils import find_lang_dir, remove_non_word_chars, resolve_lang
-from gruut.cloudflare_d1_db import CloudflareD1Phonemizer
 from gruut.turso_db import TursoDB
 _LOGGER = logging.getLogger("gruut")
 
@@ -913,11 +911,11 @@ class DelayedSqlitePhonemizer:
         assert self.phonemizer is not None
         return self.phonemizer(word, role=role, do_transforms=do_transforms)
 
+
 class DelayedTursoPhonemizer:
     """Phonemizer that loads from Turso on first use"""
-
     def __init__(
-        self, 
+        self,
         url: str,
         auth_token: str,
         table_name: str,
@@ -936,7 +934,6 @@ class DelayedTursoPhonemizer:
     ) -> typing.Optional[PHONEMES_TYPE]:
         if self.phonemizer is None:            # Load initial data using asyncio
             async def load_data():
-                from gruut.turso_db import TursoDB
                 self.turso_db = await TursoDB.create(
                     url=self.url,
                     auth_token=self.auth_token,
@@ -949,7 +946,6 @@ class DelayedTursoPhonemizer:
                 )
                 await self.turso_db.close_turso_client()
             
-            # Run async load in a new event loop
             self._cleanup_loop = asyncio.new_event_loop()
             asyncio.set_event_loop(self._cleanup_loop)
             try:

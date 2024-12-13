@@ -1,1 +1,0 @@
-python update_db.py /home/s44504/babygruut/gruut-lang-en/gruut_lang_en/lexicon.db ./lang-en/en_lexicon.csv /home/s44504/babygruut/gruut-lang-en/gruut_lang_en/en_lexicon.db

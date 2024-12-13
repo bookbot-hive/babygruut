@@ -1,18 +1,14 @@
 """gruut module"""
-import itertools
+
 import logging
-import re
-import sqlite3
 import threading
 import typing
-from enum import Enum
-from pathlib import Path
 
 from gruut.const import KNOWN_LANGS, TextProcessorSettings
+from gruut.lang import DelayedTursoPhonemizer
 from gruut.resources import _DIR, _PACKAGE
 from gruut.text_processor import Sentence, TextProcessor
 from gruut.utils import resolve_lang
-from gruut.lang import DelayedTursoPhonemizer
 
 # -----------------------------------------------------------------------------
 
@@ -74,14 +70,22 @@ def sentences(
 
         text_processor = _LOCAL.processors.get(model_prefix)
         if text_processor is None:
-            _LOGGER.debug(f"Creating new processor for {lang} with config: {turso_config}")
-            text_processor = TextProcessor(default_lang=lang, model_prefix=model_prefix, turso_config=turso_config)
+            _LOGGER.debug(
+                "Creating new processor for %s with config: %s",
+                lang,
+                turso_config
+            )
+            text_processor = TextProcessor(
+                default_lang=lang, model_prefix=model_prefix, turso_config=turso_config
+            )
             _LOCAL.processors[model_prefix] = text_processor
         else:
-            _LOGGER.debug(f"Using existing processor for {lang}")
+            _LOGGER.debug("Using existing processor for %s", lang)
             text_processor.turso_config = turso_config
 
-    assert text_processor is not None
+    if text_processor is None:
+        raise ValueError("Text processor initialization failed")
+
     graph, root = text_processor(text, lang=lang, ssml=ssml, **process_args)
 
     yield from text_processor.sentences(
