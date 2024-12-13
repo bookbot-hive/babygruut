@@ -88,20 +88,8 @@ See [the documentation](https://rhasspy.github.io/gruut/) for more details.
 ## Installation
 
 ```sh
-pip install gruut
+pip install git+https://github.com/bookbot-hive/babygruut.git@turso_db
 ```
-
-Languages besides English can be added during installation. For example, with French and Italian support:
-
-```sh
-pip install -f 'https://synesthesiam.github.io/prebuilt-apps/' gruut[fr,it]
-```
-
-The extra pip repo is needed for an updated [num2words fork](https://github.com/rhasspy/num2words) that includes support for more languages.
-
-You may also [manually download language files](https://github.com/rhasspy/gruut/releases/latest) and use put them in `$XDG_CONFIG_HOME/gruut/` (`$HOME/.config/gruut` by default).
-
-gruut will look for language files in the directory `$XDG_CONFIG_HOME/gruut/<lang>/` if the corresponding Python package is not installed. Note that `<lang>` here is the **full** language name, e.g. `de-de` instead of just `de`. 
 
 ## Supported Languages
 
