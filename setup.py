@@ -21,13 +21,6 @@ if requirements_path.is_file():
     with open(requirements_path, "r", encoding="utf-8") as requirements_file:
         requirements = requirements_file.read().splitlines()
 
-version_path = module_dir / "VERSION"
-with open(version_path, "r", encoding="utf-8") as version_file:
-    version = version_file.read().strip()
-
-# x.y.z -> x.0.0
-base_version = ".".join(version.split(".")[:-2] + ["0", "0"])
-
 # -----------------------------------------------------------------------------
 # extras_require
 # -----------------------------------------------------------------------------
@@ -61,7 +54,8 @@ for lang in [
     "sv",
     "sw",
 ]:
-    extras[f"gruut_lang_{lang}~={base_version}"] = [lang]
+    # We'll handle version constraints differently with setuptools_scm
+    extras[f"gruut_lang_{lang}"] = [lang]
 
 # Add "all" tag
 for tags in extras.values():
@@ -72,7 +66,6 @@ extras_require = defaultdict(list)
 for dep, tags in extras.items():
     for tag in tags:
         extras_require[tag].append(dep)
-
 
 # -----------------------------------------------------------------------------
 
@@ -88,11 +81,15 @@ data_files = [
 setuptools.setup(
     name="babygruut",
     description="A tokenizer, text cleaner, and phonemizer for many human languages.",
-    version=version,
     url="https://github.com/bookbot-hive/babygruut",
     packages=setuptools.find_packages(),
-    package_data={"gruut": data_files + ["VERSION", "py.typed"]},
+    package_data={"gruut": data_files + ["py.typed"]},
     install_requires=requirements,
+    setup_requires=['setuptools_scm'],
+    use_scm_version={
+        'write_to': 'gruut/VERSION',
+        'version_scheme': 'post-release',
+    },
     extras_require={
         ':python_version<"3.7"': ["dataclasses", "types-dataclasses"],
         ':python_version<"3.9"': ["importlib_resources"],
