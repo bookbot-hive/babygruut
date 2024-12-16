@@ -13,7 +13,6 @@ from gruut.utils import resolve_lang
 
 _LOGGER = logging.getLogger(_PACKAGE)
 
-__version__ = (_DIR / "VERSION").read_text(encoding="utf-8").strip()
 __author__ = "Michael Hansen (synesthesiam)"
 __all__ = [
     "sentences",
