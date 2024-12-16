@@ -29,9 +29,8 @@ if requirements_path.is_file():
 extras = {
     "hazm~=0.7.0": ["fa"],
     "conllu>=4.4": ["train"],
-    # final version supporting Python 3.6
     "rapidfuzz>=2.11.1": ["train"],
-    "aeneas~=1.7.3.0": ["align"],  # requires numpy to install
+    "aeneas~=1.7.3.0": ["align"],
     "pydub~=0.24.1": ["align"],
     "mishkal~=0.4.0": ["ar"],
     "codernitydb3~=0.6.0": ["ar"],
@@ -54,7 +53,6 @@ for lang in [
     "sv",
     "sw",
 ]:
-    # We'll handle version constraints differently with setuptools_scm
     extras[f"gruut_lang_{lang}"] = [lang]
 
 # Add "all" tag
@@ -86,10 +84,7 @@ setuptools.setup(
     package_data={"gruut": data_files + ["py.typed"]},
     install_requires=requirements,
     setup_requires=['setuptools_scm'],
-    use_scm_version={
-        'write_to': 'gruut/VERSION',
-        'version_scheme': 'post-release',
-    },
+    use_scm_version=True,
     extras_require={
         ':python_version<"3.7"': ["dataclasses", "types-dataclasses"],
         ':python_version<"3.9"': ["importlib_resources"],
