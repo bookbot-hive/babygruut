@@ -191,13 +191,13 @@ if __name__ == "__main__":
         try:
             # Test direct phoneme lookup
             print(f"SqlitePhonemizer:")
-            print(f"All pronunciations for 'langu': {turso.phonemizer("langu")}")
-            print(f"All pronunciations for 'gari': {turso.phonemizer("gari")}")
+            print(f"All pronunciations for 'langu': {turso.phonemizer('langu')}")
+            print(f"All pronunciations for 'gari': {turso.phonemizer('gari')}")
             print(f"="*80)
             
             print(f"TursoDB.get_phonemes_direct:")
-            print(f"All pronunciations for 'langu': {await turso.get_phonemes_direct("langu")}")
-            print(f"All pronunciations for 'gari': {await turso.get_phonemes_direct("gari")}")
+            print(f"All pronunciations for 'langu': {await turso.get_phonemes_direct('langu')}")
+            print(f"All pronunciations for 'gari': {await turso.get_phonemes_direct('gari')}")
             print(f"="*80)
         finally:
             await turso.close()

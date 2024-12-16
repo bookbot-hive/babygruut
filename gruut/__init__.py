@@ -5,7 +5,6 @@ import threading
 import typing
 
 from gruut.const import KNOWN_LANGS, TextProcessorSettings
-from gruut.lang import DelayedTursoPhonemizer
 from gruut.resources import _DIR, _PACKAGE
 from gruut.text_processor import Sentence, TextProcessor
 from gruut.utils import resolve_lang
@@ -22,7 +21,6 @@ __all__ = [
     "get_supported_languages",
     "TextProcessor",
     "TextProcessorSettings",
-    "DelayedTursoPhonemizer",
 ]
 
 # -----------------------------------------------------------------------------

@@ -4,7 +4,7 @@ from gruut import sentences
 from tqdm import tqdm
 import logging
 import unittest
-
+import os
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
