@@ -43,26 +43,30 @@ class TursoDB:
         table_name: str,
         **phonemizer_args
     ):
-        # Initialize Turso client
-        turso_client = libsql_client.create_client(
-            url=url,
-            auth_token=auth_token
-        )
-        # Create in-memory cache
-        memory_conn = sqlite3.connect(":memory:")
-        
-        # Create instance
-        instance = cls(turso_client, memory_conn, table_name, **phonemizer_args)
-        instance._initialize_memory_schema()
-        _LOGGER.info("Loading data into memory...")
-        await instance._load_data_into_memory()
-        instance.phonemizer = SqlitePhonemizer(
-            db_conn=instance.memory_conn,
-            **instance.phonemizer_args
-        )
-        
-        return instance
-    
+        turso_client = None
+        try:
+            # Initialize Turso client
+            turso_client = libsql_client.create_client(
+                url=url,
+                auth_token=auth_token
+            )
+            # Create in-memory cache
+            memory_conn = sqlite3.connect(":memory:")
+            # Create instance
+            instance = cls(turso_client, memory_conn, table_name, **phonemizer_args)
+            instance._initialize_memory_schema()
+            # Load turso database into memory database
+            _LOGGER.info("Loading data into memory...")
+            await instance._load_data_into_memory()
+            instance.phonemizer = SqlitePhonemizer(
+                db_conn=instance.memory_conn,
+                **instance.phonemizer_args
+            )
+            return instance
+        except Exception as e:
+            _LOGGER.error(f"Error during TursoDB creation: {e}")
+            raise
+
     def _initialize_memory_schema(self):
         """Create the schema in the in-memory SQLite database."""
         schema = """
@@ -80,22 +84,16 @@ class TursoDB:
         start_time = time.time()
         _LOGGER.info("Starting to load data from Turso...")
         
-        # Initialize batch size and prepare cursor
         batch_size = 5000  # Increased batch size
-        
-        # Get total count first
-        count_result = await self.turso_client.execute(f"SELECT COUNT(*) FROM {self.table_name}")
-        total_count = count_result.rows[0][0]
-        
-        # Disable synchronous writes and journaling for faster inserts
-        self.memory_conn.execute("PRAGMA synchronous = OFF")
-        self.memory_conn.execute("PRAGMA journal_mode = OFF")
-        
-        # Begin transaction
-        self.memory_conn.execute("BEGIN TRANSACTION")
-        
         try:
-            # Create concurrent tasks for fetching data
+            count_result = await self.turso_client.execute(f"SELECT COUNT(*) FROM {self.table_name}")
+            total_count = count_result.rows[0][0]
+            
+            self.memory_conn.execute("PRAGMA synchronous = OFF")
+            self.memory_conn.execute("PRAGMA journal_mode = OFF")
+            
+            self.memory_conn.execute("BEGIN TRANSACTION")
+        
             tasks = []
             for offset in range(0, total_count, batch_size):
                 query = f"""
@@ -106,10 +104,8 @@ class TursoDB:
                 """
                 tasks.append(self.turso_client.execute(query))
             
-            # Execute all queries concurrently
             results = await asyncio.gather(*tasks)
             
-            # Process results
             total_rows = 0
             for result in results:
                 rows = result.rows
@@ -124,22 +120,24 @@ class TursoDB:
             
         except Exception as e:
             self.memory_conn.rollback()
+            if self.memory_conn is not None:
+                try:
+                    self.memory_conn.close()
+                except Exception as close_error:
+                    _LOGGER.error(f"Error closing memory connection: {close_error}")
             raise e
         
         finally:
-            # Reset pragmas to default values
-            self.memory_conn.execute("PRAGMA synchronous = FULL")
-            self.memory_conn.execute("PRAGMA journal_mode = DELETE")
+            # Ensure the client session is closed
+            if self.turso_client is not None:
+                try:
+                    await self.turso_client.close()
+                except Exception as e:
+                    _LOGGER.error(f"Error closing Turso client: {e}")
         
         total_time = time.time() - start_time
         _LOGGER.info(f"Loaded {total_rows} rows from {self.table_name} table in {total_time:.2f} seconds")
 
-    async def close_turso_client(self):
-        """Close only the Turso client connection after data is loaded"""
-        if hasattr(self, 'turso_client'):
-            await self.turso_client.close()
-            delattr(self, 'turso_client')  # Remove reference to prevent reuse
-            
     async def get_phonemes_direct(self, word: str, role: str = None) -> list[tuple]:
         """Query phonemes directly from Turso database, bypassing the cache.
         

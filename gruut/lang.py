@@ -74,18 +74,24 @@ def get_settings(
         if load_phoneme_lexicon and ("lookup_phonemes" not in settings_args):
             _LOGGER.debug(f"Turso config: {turso_config}")
             if turso_config is not None:
-                # Use Turso phonemizer if config is provided
-                settings_args["lookup_phonemes"] = DelayedTursoPhonemizer(
-                    url=turso_config["url"],
-                    auth_token=turso_config["auth_token"],
-                    table_name=turso_config["table"],
-                    word_transform_funcs=[
-                        str.lower,
-                        remove_non_word_chars,
-                        lambda s: remove_non_word_chars(s.lower()),
-                    ],
-                )
-            else:
+                try:
+                    # Try to use Turso phonemizer if config is provided
+                    settings_args["lookup_phonemes"] = DelayedTursoPhonemizer(
+                        url=turso_config["url"],
+                        auth_token=turso_config["auth_token"],
+                        table_name=turso_config["table"],
+                        word_transform_funcs=[
+                            str.lower,
+                            remove_non_word_chars,
+                            lambda s: remove_non_word_chars(s.lower()),
+                        ],
+                    )
+                except Exception as e:
+                    _LOGGER.warning(f"Failed to initialize Turso phonemizer: {str(e)}")
+                    _LOGGER.warning("Falling back to SQLite phonemizer")
+                    turso_config = None  # Force fallback to SQLite
+            
+            if turso_config is None:
                 # Use default SQLite phonemizer
                 lexicon_db_path = lang_dir / lang_model_prefix / "lexicon.db"
                 if lexicon_db_path.is_file():
@@ -927,13 +933,11 @@ class DelayedTursoPhonemizer:
         self.phonemizer = None
         self.turso_db = None
         self.phonemizer_args = phonemizer_args
-        self._cleanup_loop = None
+        self._init_phonemizer()
 
-    def __call__(
-        self, word: str, role: typing.Optional[str] = None, do_transforms: bool = True
-    ) -> typing.Optional[PHONEMES_TYPE]:
-        if self.phonemizer is None:            # Load initial data using asyncio
-            async def load_data():
+    def _init_phonemizer(self):
+        async def load_data():
+            try:
                 self.turso_db = await TursoDB.create(
                     url=self.url,
                     auth_token=self.auth_token,
@@ -944,16 +948,22 @@ class DelayedTursoPhonemizer:
                     db_conn=self.turso_db.memory_conn,
                     **self.phonemizer_args
                 )
-                await self.turso_db.close_turso_client()
-            
-            self._cleanup_loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(self._cleanup_loop)
-            try:
-                self._cleanup_loop.run_until_complete(load_data())
-            except:
-                self._cleanup_loop.close()
-                self._cleanup_loop = None
+            except Exception as e:
+                _LOGGER.error(f"Error initializing phonemizer: {e}")
                 raise
 
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(load_data())
+         
+            loop.close()
+        except Exception as e:
+            _LOGGER.error(f"Error running load_data: {e}")
+            raise
+
+    def __call__(
+        self, word: str, role: typing.Optional[str] = None, do_transforms: bool = True
+    ) -> typing.Optional[PHONEMES_TYPE]:
         assert self.phonemizer is not None
         return self.phonemizer(word, role=role, do_transforms=do_transforms)
