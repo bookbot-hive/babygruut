@@ -2,6 +2,16 @@
 
 A tokenizer, text cleaner, and [IPA](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet) phonemizer for several human languages that supports [SSML](#ssml).
 
+This branch of babygruut supports custom lexicon by connecting to a remote turso database.
+
+## Turso Setup
+Please make sure to export `TURSO_LEXICON_URL` and `TURSO_LEXICON_AUTH_TOKEN` as an environment variable in your bashrc file.
+```
+export TURSO_LEXICON_URL="..."
+export TURSO_LEXICON_AUTH_TOKEN="..."
+```
+
+
 ```python
 from gruut import sentences
 

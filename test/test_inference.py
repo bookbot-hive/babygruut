@@ -12,8 +12,8 @@ logging.basicConfig(
 )
 logging.getLogger("gruut").setLevel(logging.INFO) 
 
-TURSO_URL = os.getenv("TURSO_URL")
-TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
+TURSO_URL = os.getenv("TURSO_LEXICON_URL")
+TURSO_AUTH_TOKEN = os.getenv("TURSO_LEXICON_AUTH_TOKEN")
 
 en_turso_config = {
     "url": TURSO_URL,

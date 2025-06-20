@@ -17,8 +17,8 @@ logging.basicConfig(
 )
 _LOGGER = logging.getLogger("gruut.turso_db")
 
-TURSO_URL = os.getenv("TURSO_URL")
-TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
+TURSO_URL = os.getenv("TURSO_LEXICON_URL")
+TURSO_AUTH_TOKEN = os.getenv("TURSO_LEXICON_AUTH_TOKEN")
 
 class TursoDB:
     """Phonemizer that uses Turso with an in-memory SQLite cache"""
