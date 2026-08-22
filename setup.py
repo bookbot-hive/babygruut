@@ -21,13 +21,6 @@ if requirements_path.is_file():
     with open(requirements_path, "r", encoding="utf-8") as requirements_file:
         requirements = requirements_file.read().splitlines()
 
-version_path = module_dir / "VERSION"
-with open(version_path, "r", encoding="utf-8") as version_file:
-    version = version_file.read().strip()
-
-# x.y.z -> x.0.0
-base_version = ".".join(version.split(".")[:-2] + ["0", "0"])
-
 # -----------------------------------------------------------------------------
 # extras_require
 # -----------------------------------------------------------------------------
@@ -36,9 +29,8 @@ base_version = ".".join(version.split(".")[:-2] + ["0", "0"])
 extras = {
     "hazm~=0.7.0": ["fa"],
     "conllu>=4.4": ["train"],
-    # final version supporting Python 3.6
     "rapidfuzz>=2.11.1": ["train"],
-    "aeneas~=1.7.3.0": ["align"],  # requires numpy to install
+    "aeneas~=1.7.3.0": ["align"],
     "pydub~=0.24.1": ["align"],
     "mishkal~=0.4.0": ["ar"],
     "codernitydb3~=0.6.0": ["ar"],
@@ -61,7 +53,7 @@ for lang in [
     "sv",
     "sw",
 ]:
-    extras[f"gruut_lang_{lang}~={base_version}"] = [lang]
+    extras[f"gruut_lang_{lang}"] = [lang]
 
 # Add "all" tag
 for tags in extras.values():
@@ -72,7 +64,6 @@ extras_require = defaultdict(list)
 for dep, tags in extras.items():
     for tag in tags:
         extras_require[tag].append(dep)
-
 
 # -----------------------------------------------------------------------------
 
@@ -88,11 +79,12 @@ data_files = [
 setuptools.setup(
     name="babygruut",
     description="A tokenizer, text cleaner, and phonemizer for many human languages.",
-    version=version,
     url="https://github.com/bookbot-hive/babygruut",
     packages=setuptools.find_packages(),
-    package_data={"gruut": data_files + ["VERSION", "py.typed"]},
+    package_data={"gruut": data_files + ["py.typed"]},
     install_requires=requirements,
+    setup_requires=['setuptools_scm'],
+    use_scm_version=True,
     extras_require={
         ':python_version<"3.7"': ["dataclasses", "types-dataclasses"],
         ':python_version<"3.9"': ["importlib_resources"],

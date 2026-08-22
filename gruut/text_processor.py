@@ -7,6 +7,7 @@ import typing
 import xml.etree.ElementTree as etree
 from decimal import Decimal
 from pathlib import Path
+import asyncio
 
 import babel
 import babel.numbers
@@ -73,6 +74,7 @@ class TextProcessor:
         self,
         default_lang: str = "en_US",
         model_prefix: str = "",
+        turso_config: typing.Optional[typing.Dict[str, str]] = None,
         lang_dirs: typing.Optional[typing.Dict[str, typing.Union[str, Path]]] = None,
         search_dirs: typing.Optional[typing.Iterable[typing.Union[str, Path]]] = None,
         settings: typing.Optional[
@@ -85,7 +87,7 @@ class TextProcessor:
 
         self.model_prefix = model_prefix
         self.search_dirs = search_dirs
-
+        self.turso_config = turso_config
         if lang_dirs is None:
             lang_dirs = {}
 
@@ -98,7 +100,7 @@ class TextProcessor:
             settings = {}
 
         self.settings = settings
-
+        
     def sentences(
         self,
         graph: GraphType,
@@ -419,12 +421,14 @@ class TextProcessor:
         )
 
         # Create default settings for language
+        _LOGGER.debug(f"get settings for {lang} language with config: {self.turso_config}")
         lang_dir = self.lang_dirs.get(lang)
         lang_settings = get_settings(
             lang,
             lang_dir=lang_dir,
             model_prefix=self.model_prefix,
             search_dirs=self.search_dirs,
+            turso_config=self.turso_config,
             **self.default_settings_kwargs,
         )
         self.settings[lang] = lang_settings
@@ -1149,12 +1153,12 @@ class TextProcessor:
                     if word.phonemes:
                         # Got phonemes from inline lexicon
                         continue
-
                     phonemize_settings = self.get_settings(word.lang)
                     if phonemize_settings.lookup_phonemes is not None:
                         word.phonemes = phonemize_settings.lookup_phonemes(
                             word.text, word.role
                         )
+                        _LOGGER.debug(f"Phonemes for {word.text}: {word.phonemes}")
 
                     if (not word.phonemes) and (
                         phonemize_settings.guess_phonemes is not None
@@ -2412,3 +2416,11 @@ class TextProcessor:
             )
             graph.add_node(currency_word.node, data=currency_word)
             graph.add_edge(word.node, currency_word.node)
+
+    def cleanup(self):
+        """Cleanup resources"""
+        for settings in self.settings.values():
+            if hasattr(settings, "lookup_phonemes"):
+                phonemizer = settings.lookup_phonemes
+                if hasattr(phonemizer, "cleanup"):
+                    asyncio.run(phonemizer.cleanup())

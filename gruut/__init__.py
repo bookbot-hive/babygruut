@@ -1,12 +1,8 @@
 """gruut module"""
-import itertools
+
 import logging
-import re
-import sqlite3
 import threading
 import typing
-from enum import Enum
-from pathlib import Path
 
 from gruut.const import KNOWN_LANGS, TextProcessorSettings
 from gruut.resources import _DIR, _PACKAGE
@@ -17,7 +13,6 @@ from gruut.utils import resolve_lang
 
 _LOGGER = logging.getLogger(_PACKAGE)
 
-__version__ = (_DIR / "VERSION").read_text(encoding="utf-8").strip()
 __author__ = "Michael Hansen (synesthesiam)"
 __all__ = [
     "sentences",
@@ -45,6 +40,7 @@ def sentences(
     phonemes: bool = True,
     break_phonemes: bool = True,
     pos: bool = True,
+    turso_config=None,
     **process_args,
 ) -> typing.Iterable[Sentence]:
     """
@@ -65,17 +61,28 @@ def sentences(
 
     """
     model_prefix = "" if (not espeak) else "espeak"
-
     with _PROCESSORS_LOCK:
         if not hasattr(_LOCAL, "processors"):
             _LOCAL.processors = {}
 
         text_processor = _LOCAL.processors.get(model_prefix)
         if text_processor is None:
-            text_processor = TextProcessor(default_lang=lang, model_prefix=model_prefix)
+            _LOGGER.debug(
+                "Creating new processor for %s with config: %s",
+                lang,
+                turso_config
+            )
+            text_processor = TextProcessor(
+                default_lang=lang, model_prefix=model_prefix, turso_config=turso_config
+            )
             _LOCAL.processors[model_prefix] = text_processor
+        else:
+            _LOGGER.debug("Using existing processor for %s", lang)
+            text_processor.turso_config = turso_config
 
-    assert text_processor is not None
+    if text_processor is None:
+        raise ValueError("Text processor initialization failed")
+
     graph, root = text_processor(text, lang=lang, ssml=ssml, **process_args)
 
     yield from text_processor.sentences(
@@ -102,3 +109,13 @@ def is_language_supported(lang: str) -> bool:
 def get_supported_languages() -> typing.Set[str]:
     """Set of supported gruut languages"""
     return set(KNOWN_LANGS)
+
+
+# Add cleanup method
+def cleanup():
+    """Cleanup thread-local resources"""
+    if hasattr(_LOCAL, "processors"):
+        for processor in _LOCAL.processors.values():
+            if hasattr(processor, "cleanup"):
+                processor.cleanup()
+        delattr(_LOCAL, "processors")

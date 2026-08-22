@@ -9,6 +9,8 @@ __pycache__/
 /download/
 dist/
 
+/g2p_alignment/
+
 coverage.xml
 .coverage
 
@@ -19,4 +21,5 @@ words.txt
 
 /data/
 
-.DS_Store
+.DS_Storegruut/_version.py
+gruut/_version.py
